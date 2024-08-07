@@ -2,7 +2,7 @@
 
 from art import logo, vs
 from data import clubs
-from os import system
+import os
 import random
 
 def format_data(clubs):
@@ -18,23 +18,33 @@ def check_guess(guess, club_a, club_b):
         return guess == 'a'
     elif follower_count_b > follower_count_a:
         return guess == 'b'
-
-club_a = random.choice(clubs)
-club_b = random.choice(clubs)
-while club_a == club_b:
-    club_b = random.choice(clubs)
     
 score = 0
 run_game = True
-
 print(logo)
 
-print(f"Compare A: {format_data(club_a)}")
+while run_game:
+    
+    club_a = random.choice(clubs)
+    club_b = random.choice(clubs)
+    while club_a == club_b:
+        club_b = random.choice(clubs)
 
-print(vs)
+    print(f"Compare A: {format_data(club_a)}")
 
-print(f"Against B: {format_data(club_b)}")
+    print(vs)
 
-user_guess = input("Which club has more followers on IG? Type 'A' or 'B': ").lower()
+    print(f"Against B: {format_data(club_b)}")
 
-check_guess(user_guess, club_a, club_b)
+    user_guess = input("\nWhich club has more followers on IG? Type 'A' or 'B': ").lower()
+    
+    os.system("cls" if os.name == "nt" else "clear")
+
+    is_correct = check_guess(user_guess, club_a, club_b)
+    if is_correct:
+        score += 1
+        print(logo)
+        print(f"You are correct! Current score: {score}.\n")
+    else:
+        run_game = False
+        print(f"Wrong answer. Final score: {score}.\n")
